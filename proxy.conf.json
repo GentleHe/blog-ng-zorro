@@ -1,0 +1,19 @@
+{
+  "/blog": {
+    "target": "http://localhost",
+    "secure": false,
+    "pathRewrite": {
+      "^/blog": ""
+    },
+    "logLevel": "debug"
+  },
+  "/stream": {
+    "target": "http://localhost:80",
+    "secure": false,
+    "ws": true,
+    "pathRewrite": {
+      "^/stream": ""
+    },
+    "logLevel": "debug"
+  }
+}

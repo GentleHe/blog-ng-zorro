@@ -1,0 +1,16 @@
+<div class="top-group">
+  <!--  顶部组-->
+</div>
+
+<nz-table [nzData]="data">
+  <thead>
+    <th *ngFor="let propertyName of propertyNames">{{propertyName}}</th>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of data">
+<!--    <td *ngFor="let propertyName of propertyNames">{{data[propertyName]}}</td>-->
+  </tr>
+  </tbody>
+</nz-table>
+
+

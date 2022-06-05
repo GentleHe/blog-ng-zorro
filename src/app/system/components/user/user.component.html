@@ -1,0 +1,84 @@
+<div class="top-group">
+<!--  顶部组-->
+</div>
+
+<button nz-button (click)="goAddDatum()" nzType="primary">Add</button>
+<br />
+<br />
+
+<nz-table
+  nzBordered
+  nzTitle="表头"
+  nzFooter="表尾"
+
+  nzFrontPagination="false"
+  nzShowSizeChanger="true"
+  [nzShowTotal]="showTotalTemplate"
+  [nzLoading]="loading"
+  [nzData]="data"
+  [nzPageIndex]="pageIndex"
+  [nzPageSize]="pageSize"
+  [nzTotal]="total"
+  (nzQueryParams)="onQueryParamsChange($event)"
+
+>
+  <thead>
+  <tr>
+    <th
+      [nzSelections]="selectedData"
+      [nzChecked]="checked"
+      [nzIndeterminate]="indeterminate"
+      nzShowRowSelection="false"
+      [nzSelections]="idSelection"
+      (nzCheckedChange)="onAllCheckedChange($event)"
+    ></th>
+    <td>编号</td>
+    <th>名称</th>
+    <th>邮箱</th>
+    <th>创建人</th>
+    <th>创建时间</th>
+    <th>更新人</th>
+    <th>更新时间</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let datum of data">
+    <td [nzChecked]="checkedIds.has(datum.id!!)"
+        (nzCheckedChange)="onDatumCheckedChange(datum.id!!, $event)"
+    ></td>
+    <td>{{datum.id}}</td>
+    <td>{{datum.name}}</td>
+    <td>{{datum.email}}</td>
+    <td>{{datum.createBy}}</td>
+    <td>{{datum.createTime | date:('yyyy-MM-dd')}}</td>
+    <td>{{datum.updateBy}}</td>
+    <td>{{datum.updateTime | date:('yyyy-MM-dd HH:mm')}}</td>
+    <td>
+      <a nz-button nzType="link">编辑</a>
+      <a nz-button nzType="link" nz-popconfirm nzPopconfirmTitle="确定删除该项吗?" nzOkText="确定" nzCancelText="取消">删除</a>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+
+<!--显示总量相关的信息-->
+<ng-template #showTotalTemplate let-total let-range="range">
+  当前：【{{range[0]}} - {{range[1]}}】 总共： 【{{total}}】 个记录
+</ng-template>
+
+
+<!-- 新增/编辑数据的对话框 -->
+<nz-modal
+  [nzVisible]="modalVisible"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]=null
+  nzClosable="false"
+>
+  <div *nzModalContent>
+    <app-user-form>
+
+    </app-user-form>
+  </div>
+
+</nz-modal>

@@ -1,0 +1,21 @@
+
+
+:source-highlighter: rouge
+:sectnums:
+:sectnumlevels: 4
+:toc: left
+:toc-title: 目录
+:toclevels: 4
+:experimental:
+:source-language: shell
+
+
+== 项目的架构
+
+=== 文件介绍
+
+home 模块：提供界面布局基础
+
+
+
+=== 目录结构
