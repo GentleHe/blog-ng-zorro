@@ -1,0 +1,16 @@
+<!-- nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" -->
+<!--[nzCustomRequest]="nzCustomRequest"-->
+<!--nzAction="http://localhost:4200/blog/file/upload"-->
+<!--[nzTransformFile]="transformFile"-->
+<nz-upload
+
+  [nzHeaders]="{authorization: 'authorization-text'}"
+  (nzChange)="handleChange($event)"
+  [nzFileList]="fileList"
+  [nzDirectory]="isDirectoryEnable"
+  [nzListType]="listShowType"
+  [nzAccept]="acceptFileType"
+[nzCustomRequest]="nzCustomRequest"
+>
+  <button nz-button><i nz-icon nzType="upload"></i>Click to Upload</button>
+</nz-upload>

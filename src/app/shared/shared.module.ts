@@ -7,21 +7,24 @@ import {NzMenuModule} from "ng-zorro-antd/menu";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzTableModule} from "ng-zorro-antd/table";
 import {BaseComponent, PageNotFoundComponent} from './components';
-import {SharedRoutingModule} from "./shared.routing.module";
 import {NzModalModule} from "ng-zorro-antd/modal";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {ReactiveFormsModule} from "@angular/forms";
+import { BaseFormComponent } from './components';
+import {SharedRoutingModule} from "./shared-routing.module";
+
 
 
 @NgModule({
   declarations: [
     PageNotFoundComponent,
     BaseComponent,
+    BaseFormComponent,
   ],
   imports: [
     CommonModule,
-    SharedRoutingModule,
     NzTableModule,
+    SharedRoutingModule
   ],
   exports: [
     NzLayoutModule,
@@ -35,4 +38,6 @@ import {ReactiveFormsModule} from "@angular/forms";
     ReactiveFormsModule,
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+
+}

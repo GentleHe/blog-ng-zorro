@@ -1,0 +1,19 @@
+
+
+<div *ngIf="isMulti">
+  <label nz-checkbox [(ngModel)]="isExpandAll" >展开/折叠</label>
+  <label nz-checkbox [(ngModel)]="isRelation">父子联动</label>
+</div>
+<nz-tree-select
+  style="width: 250px"
+  [(ngModel)]="checkedIds"
+  [nzNodes]="treeArray"
+  (ngModelChange)="onChange($event)"
+  nzShowSearch
+  [nzCheckable]="isMulti"
+  [nzDefaultExpandAll]="isExpandAll"
+  nzVirtualHeight="400px"
+  [nzCheckStrictly]="!isRelation"
+  nzPlaceHolder="请选择"
+>
+</nz-tree-select>

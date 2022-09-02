@@ -1,0 +1,14 @@
+
+<nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Icon" [(ngModel)]="selectedIcon" (ngModelChange)="onChange($event)" [nzCustomTemplate]="defaultTemplate" >
+  <nz-option nzCustomContent nzLabel="Windows" nzValue="windows"><i nz-icon nzType="windows"></i> Windows</nz-option>
+  <nz-option nzCustomContent nzLabel="Mac" nzValue="mac"><i nz-icon nzType="apple"></i> Mac</nz-option>
+  <nz-option nzCustomContent nzLabel="Android" nzValue="android"><i nz-icon nzType="android"></i> Android </nz-option>
+
+  <nz-option *ngFor="let icon of allIcons" nzCustomContent [nzLabel]=icon.name [nzValue]=icon.icon>
+    <i nz-icon [nzType]=icon.name > </i> {{icon.name}}
+  </nz-option>
+
+
+
+</nz-select>
+<ng-template #defaultTemplate let-selected> <i nz-icon [nzType]="selected.nzValue"></i> {{ selected.nzLabel }} </ng-template>
