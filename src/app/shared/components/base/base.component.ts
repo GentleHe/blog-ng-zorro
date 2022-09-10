@@ -57,7 +57,7 @@ export class BaseComponent<DTO extends BaseDTO, VO extends BaseVO> implements On
   baseDTO = new BaseDTO() as DTO;
 
   // 分页对象
-  pageable = new Pageable(this.pageIndex, this.pageSize);
+  pageable = new Pageable(this.pageIndex, this.pageSize, [], []);
 
   checked = false;
   indeterminate = false;
@@ -91,7 +91,7 @@ export class BaseComponent<DTO extends BaseDTO, VO extends BaseVO> implements On
 
     var data = this.baseService.getData(pageable, baseDTO);
     data.subscribe(x => {
-      console.log("获取到的数据列表: " + JSON.stringify(x.data))
+      console.log("获取到的数据列表: " + JSON.stringify(x.data.total))
 
 
       // 赋值
@@ -120,8 +120,13 @@ export class BaseComponent<DTO extends BaseDTO, VO extends BaseVO> implements On
    * @param params
    */
   onQueryParamsChange(params: NzTableQueryParams) {
+
+    const {pageSize, pageIndex, sort, filter} = params;
+
+    console.log(`当前的查询参数：\n ${JSON.stringify(params)}`)
+
     //页码需要“减1”，ng-zorro是以 1 为起始页的索引的
-    this.pageable = new Pageable(params.pageIndex - 1, params.pageSize);
+    this.pageable = new Pageable(pageIndex - 1, pageSize, sort as Array<{ key: string; value: 'ascend' | 'descend' | null }>, filter);
 
     this.loadDataFromServer(this.pageable, this.baseDTO)
   }
@@ -193,6 +198,6 @@ export class BaseComponent<DTO extends BaseDTO, VO extends BaseVO> implements On
   }
 
   handleCancel() {
-    this.modalVisible=false
+    this.modalVisible = false
   }
 }

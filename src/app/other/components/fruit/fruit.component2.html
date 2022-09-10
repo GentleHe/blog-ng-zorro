@@ -1,0 +1,94 @@
+<!--<div class="top-group">-->
+<!--  &lt;!&ndash;  顶部组&ndash;&gt;-->
+<!--</div>-->
+
+<!--<button nz-button (click)="goAddDatum()" nzType="primary">Add</button>-->
+<!--<br />-->
+<!--<br />-->
+
+<!--<nz-table-->
+<!--  nzBordered-->
+<!--  nzTitle="表头"-->
+<!--  nzFooter="表尾"-->
+<!--  nzFrontPagination="false"-->
+<!--  nzShowSizeChanger="true"-->
+<!--  [nzScroll]="{ x: '1100px' }"-->
+<!--  [nzShowTotal]="showTotalTemplate"-->
+<!--  [nzLoading]="loading"-->
+<!--  [nzData]="data"-->
+<!--  [nzPageIndex]="pageIndex"-->
+<!--  [nzPageSize]="pageSize"-->
+<!--  [nzTotal]="total"-->
+<!--  (nzQueryParams)="onQueryParamsChange($event)"-->
+<!--&gt;-->
+<!--  <thead>-->
+<!--  <tr>-->
+<!--    <th-->
+<!--      nzAlign="center"-->
+<!--      [nzSelections]="selectedData"-->
+<!--      [nzChecked]="checked"-->
+<!--      [nzIndeterminate]="indeterminate"-->
+<!--      nzShowRowSelection="false"-->
+<!--      [nzSelections]="idSelection"-->
+<!--      (nzCheckedChange)="onAllCheckedChange($event)"-->
+<!--    ></th>-->
+<!--    <th nzLeft nzAlign="center">编号</th>-->
+<!--    <th nzLeft nzAlign="center">名称</th>-->
+<!--    <th nzAlign="center">重量</th>-->
+<!--    <th nzAlign="center"-->
+
+<!--        [nzSortOrder]=sortOrder-->
+<!--        [nzSortDirections]="sortDirections"-->
+<!--        [nzSortFn]="sortFn"-->
+<!--    >价格</th>-->
+<!--    <th nzAlign="center">甜吗</th>-->
+<!--    <th nzAlign="center">备注</th>-->
+<!--    <th nzAlign="center">创建人</th>-->
+<!--    <th nzAlign="center">创建时间</th>-->
+<!--    <th nzAlign="center">更新人</th>-->
+<!--    <th nzAlign="center">更新时间</th>-->
+<!--    <th nzRight nzAlign="center">操作</th>-->
+<!--  </tr>-->
+<!--  </thead>-->
+<!--  <tbody>-->
+<!--  <tr *ngFor="let datum of data">-->
+<!--    <td-->
+<!--      nzAlign="center"-->
+<!--      [nzChecked]="checkedIds.has(datum.id!!)"-->
+<!--        (nzCheckedChange)="onDatumCheckedChange(datum.id!!, $event)"-->
+<!--    ></td>-->
+<!--    <td nzLeft nzAlign="center">{{datum.id}}</td>-->
+<!--    <td nzLeft nzAlign="center">{{datum.name}}</td>-->
+<!--    <td nzAlign="center">{{datum.weight}}</td>-->
+<!--    <td nzAlign="center">{{datum.price}}</td>-->
+<!--    <td nzAlign="center">{{datum.isSweet}}</td>-->
+<!--    <td nzAlign="center">{{datum.remark}}</td>-->
+<!--    <td nzAlign="center">{{datum.createBy}}</td>-->
+<!--    <td nzAlign="center">{{datum.createTime | date:('yyyy-MM-dd')}}</td>-->
+<!--    <td nzAlign="center">{{datum.updateBy}}</td>-->
+<!--    <td nzAlign="center">{{datum.updateTime | date:('yyyy-MM-dd HH:mm')}}</td>-->
+<!--    <td nzRight nzAlign="center">-->
+<!--      <a nz-button nzType="link">编辑</a>-->
+<!--      <a nz-button nzType="link" nz-popconfirm nzPopconfirmTitle="确定删除该项吗?" nzOkText="确定" nzCancelText="取消">删除</a>-->
+<!--    </td>-->
+<!--  </tr>-->
+<!--  </tbody>-->
+<!--</nz-table>-->
+
+<!--&lt;!&ndash;显示总量相关的信息&ndash;&gt;-->
+<!--<ng-template #showTotalTemplate let-total let-range="range">-->
+<!--  当前：【{{range[0]}} - {{range[1]}}】 总共： 【{{total}}】 个记录-->
+<!--</ng-template>-->
+
+
+<!--&lt;!&ndash; 新增/编辑数据的对话框 &ndash;&gt;-->
+<!--<nz-modal-->
+<!--  [nzVisible]="modalVisible"-->
+<!--  (nzOnCancel)="handleCancel()"-->
+<!--  [nzFooter]=null-->
+<!--  nzClosable="false"-->
+<!--&gt;-->
+<!--  <div *nzModalContent>-->
+<!--  </div>-->
+
+<!--</nz-modal>-->

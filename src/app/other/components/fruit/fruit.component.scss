@@ -1,0 +1,20 @@
+.top-group {
+  border: #abc4de 1px dashed;
+  display: flex;
+  flex-direction: column;
+
+
+  .top-group-filter {
+    display: flex;
+
+
+    div {
+      margin-top: 1rem;
+    }
+  }
+
+
+  button {
+    margin-right: 1rem;
+  }
+}

@@ -91,13 +91,17 @@ export class BaseService<DTO extends BaseDTO, VO extends BaseVO> implements Base
       .append('size', pageable.size)
       .append('page', pageable.page)
 
-
+    for (let sortElement of pageable.sort) {
+      if (sortElement.value) {
+        params = params.append('sort', `${sortElement.key},${sortElement.value==='ascend'?'asc':'desc'}`)
+      }
+    }
 
     // var resultObservable = this.http.get<Result>(`${this.baseUrl}${this.serviceName}`, {
     //   params: param
     // });
     console.log('pageable: ' + JSON.stringify(pageable))
-    console.log('params: ' + JSON.stringify(params))
+    console.log('params: ' + JSON.stringify(params.keys()))
 
     var resultObservable = this.http.request<Result>('get', `${this.baseUrl}${this.serviceName}`, {
       params, body: baseDTO
