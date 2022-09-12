@@ -1,23 +1,28 @@
+<!--顶部组-->
 <div class="top-group">
-  <!--  顶部组-->
+  <!--顶部操作组-->
   <div class="top-group-operation">
     <button nz-button (click)="goAddDatum()" nzType="primary">添加</button>
     <button nz-button (click)="reloadData()" nzType="primary">刷新</button>
     <button nz-button (click)="reloadData()" nzType="primary">修改</button>
   </div>
+
+  <!--顶部过滤组-->
   <div class="top-group-filter">
 
     <form nz-form [formGroup]="filterForm" nzLayout="inline">
-      <div nz-row>
+      <div nz-row [nzGutter]="[16, 24]">
+        <div nz-col nzSpan="7">
+
+
         <nz-form-item>
           <nz-form-label>名称</nz-form-label>
           <nz-form-control>
             <input nz-input placeholder="清输入名称筛选"/>
           </nz-form-control>
         </nz-form-item>
-      </div>
-      <div nz-row [nzGutter]="[16, 24]">
-        <div nz-col nzSpan="12">
+        </div>
+        <div nz-col nzSpan="8">
           <nz-form-item>
             <nz-form-label>创建时间</nz-form-label>
             <nz-form-control>
@@ -25,7 +30,7 @@
             </nz-form-control>
           </nz-form-item>
         </div>
-        <div nz-col nzSpan="12">
+        <div nz-col nzSpan="9">
           <nz-form-item>
             <nz-form-label>更新时间</nz-form-label>
             <nz-form-control>
@@ -48,6 +53,7 @@
 
   </div>
 
+
 </div>
 
 
@@ -57,7 +63,7 @@
   nzFooter="表尾"
   nzFrontPagination="false"
   nzShowSizeChanger="true"
-  [nzScroll]="{ x: '400px', y: '500px' }"
+  [nzScroll]="{ x: '400px' }"
 
   [nzShowTotal]="showTotalTemplate"
   [nzLoading]="loading"
@@ -80,16 +86,34 @@
       [nzSelections]="idSelection"
       (nzCheckedChange)="onAllCheckedChange($event)"
     ></th>
-    <th nzLeft nzAlign="center" nzColumnKey="id" [nzSortFn]="true" [nzSortPriority]="true">编号</th>
-    <th nzLeft nzAlign="center" nzColumnKey="name" [nzSortFn]="true" [nzSortPriority]="true">名称</th>
-    <th nzAlign="center" nzColumnKey="weight" [nzSortFn]="true" [nzSortPriority]="true">重量</th>
-    <th nzAlign="center" nzColumnKey="price" [nzSortFn]="true" [nzSortPriority]="true">价格</th>
-    <th nzAlign="center" nzColumnKey="isSweet" [nzSortFn]="true" [nzSortPriority]="true">甜吗</th>
-    <th nzAlign="center">备注</th>
-    <th nzAlign="center">创建人</th>
-    <th nzAlign="center" nzColumnKey="createTime" [nzSortFn]="true" [nzSortPriority]="true">创建时间</th>
-    <th nzAlign="center">更新人</th>
-    <th nzAlign="center" nzColumnKey="updateTime" [nzSortFn]="true" [nzSortPriority]="true">更新时间</th>
+
+    <th nzAlign="center"
+        *ngFor="let columnItem of columnItems"
+        nzColumnKey="{{columnItem.key}}"
+        [nzSortFn]="columnItem.sortFn" [nzSortPriority]="columnItem.sortPriority"
+        [nzShowFilter]="columnItem.showFilter" [nzFilterFn]="columnItem.filterFn" [nzFilters]="columnItem.filters"
+        [nzFilterMultiple]="columnItem.filterMultiple"
+    >
+      {{columnItem.name}}
+    </th>
+
+    <!--    <th nzLeft nzAlign="center" nzColumnKey="id" [nzSortFn]="true" [nzSortPriority]="true">编号</th>-->
+    <!--    <th nzLeft nzAlign="center" nzColumnKey="name" [nzSortFn]="true" [nzSortPriority]="true">名称</th>-->
+    <!--    <th nzAlign="center" nzColumnKey="weight" [nzSortFn]="true" [nzSortPriority]="true">重量</th>-->
+    <!--    <th nzAlign="center" nzColumnKey="price" [nzSortFn]="true" [nzSortPriority]="true">价格</th>-->
+    <!--    <th nzAlign="center" nzColumnKey="isSweet" [nzSortFn]="true" [nzSortPriority]="true" [nzFilterFn]="true"-->
+    <!--        [nzFilters]="filterSweet" [nzFilterMultiple]="false">甜吗-->
+    <!--    </th>-->
+    <!--    <th nzAlign="center" nzCustomFilter>-->
+    <!--      <nz-filter-trigger [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">-->
+    <!--        <span nz-icon nzType="search"></span>-->
+    <!--      </nz-filter-trigger>-->
+    <!--      备注-->
+    <!--    </th>-->
+    <!--    <th nzAlign="center">创建人</th>-->
+    <!--    <th nzAlign="center" nzColumnKey="createTime" [nzSortFn]="true" [nzSortPriority]="true">创建时间</th>-->
+    <!--    <th nzAlign="center">更新人</th>-->
+    <!--    <th nzAlign="center" nzColumnKey="updateTime" [nzSortFn]="true" [nzSortPriority]="true">更新时间</th>-->
     <th nzRight nzAlign="center">操作</th>
   </tr>
   </thead>
@@ -100,16 +124,20 @@
       [nzChecked]="checkedIds.has(datum.id!!)"
       (nzCheckedChange)="onDatumCheckedChange(datum.id!!, $event)"
     ></td>
-    <td nzLeft nzAlign="center">{{datum.id}}</td>
-    <td nzLeft nzAlign="center">{{datum.name}}</td>
-    <td nzAlign="center">{{datum.weight}}</td>
-    <td nzAlign="center">{{datum.price}}</td>
-    <td nzAlign="center">{{datum.isSweet}}</td>
-    <td nzAlign="center">{{datum.remark}}</td>
-    <td nzAlign="center">{{datum.createBy}}</td>
-    <td nzAlign="center">{{datum.createTime | date:('yyyy-MM-dd')}}</td>
-    <td nzAlign="center">{{datum.updateBy}}</td>
-    <td nzAlign="center">{{datum.updateTime | date:('yyyy-MM-dd HH:mm')}}</td>
+
+    <td nzAlign="center" *ngFor="let columnItem of columnItems">{{datum[columnItem.key]}}</td>
+
+    <!--        <td nzLeft nzAlign="center">{{datum.id}}</td>-->
+    <!--        <td nzLeft nzAlign="center">{{datum.name}}</td>-->
+    <!--        <td nzAlign="center">{{datum.weight}}</td>-->
+    <!--        <td nzAlign="center">{{datum.price}}</td>-->
+    <!--        <td nzAlign="center">{{datum.isSweet}}</td>-->
+    <!--        <td nzAlign="center">{{datum.remark}}</td>-->
+    <!--        <td nzAlign="center">{{datum.createBy}}</td>-->
+    <!--        <td nzAlign="center">{{datum.createTime | date:('yyyy-MM-dd')}}</td>-->
+    <!--        <td nzAlign="center">{{datum.updateBy}}</td>-->
+    <!--        <td nzAlign="center">{{datum.updateTime | date:('yyyy-MM-dd HH:mm')}}</td>-->
+
     <td nzRight nzAlign="center">
       <a nz-button nzType="link">编辑</a>
       <a nz-button nzType="link" nzDanger nz-popconfirm nzPopconfirmTitle="确定删除该项吗?" nzOkText="确定"
@@ -124,6 +152,16 @@
   当前：【{{range[0]}} - {{range[1]}}】 总共： 【{{total}}】 个记录
 </ng-template>
 
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue"/>
+      <button nz-button nzSize="small" nzType="primary" class="search-button">Search</button>
+      <button nz-button nzSize="small">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>
 
 <!-- 新增/编辑数据的对话框 -->
 <nz-modal

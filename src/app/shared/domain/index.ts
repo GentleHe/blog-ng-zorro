@@ -20,7 +20,11 @@ export class Pageable {
 }
 
 export class BaseDTO {
-
+  id?: number;
+  createTime?: number;
+  updateTime?: number;
+  createBy?: string;
+  updateBy?: string;
 }
 
 export class BaseVO {

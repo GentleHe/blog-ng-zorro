@@ -5,12 +5,29 @@ import {FruitService} from "../../services";
 import {NzTableSortFn, NzTableSortOrder} from "ng-zorro-antd/table";
 import {FormGroup} from "@angular/forms";
 
-interface ColumnItem{
-  name: string;
-  sortOrder: NzTableSortOrder | null;
-  sortFn: boolean | NzTableSortFn<any> | null;
+export class ColumnItem {
+  name!: string;
+  key!: string;
+  sortFn: boolean = true;
+  sortPriority: boolean = true;
+  showFilter: boolean = false;
+  filterFn: boolean = true;
+  filters: Array<{ text: string; value: any }> = [];
+  filterMultiple: boolean = false;
+
+
+  constructor(name: string, key: string) {
+    this.name = name;
+    this.key = key;
+  }
 
 }
+
+export const basicColumnItemId = new ColumnItem('编号', 'id');
+export const basicColumnItemCreateBy = new ColumnItem('创建人', 'createBy');
+export const basicColumnItemCreateTime = new ColumnItem('创建时间', 'createTime');
+export const basicColumnItemUpdateBy = new ColumnItem('更新人', 'updateBy');
+export const basicColumnItemUpdateTime = new ColumnItem('更新时间', 'updateTime');
 
 @Component({
   selector: 'app-fruit',
@@ -19,26 +36,40 @@ interface ColumnItem{
 })
 export class FruitComponent extends BaseComponent<FruitDTO, FruitVO> implements OnInit {
 
-  columnItems: ColumnItem[] = [{
-    name: '价格1',
-    sortOrder: 'ascend',
-    // sortDirections: ['ascend', 'descend', null],
-    sortFn: true
-  }];
+  override baseDTO: FruitDTO = new FruitDTO();
+
+
+  columnItems: ColumnItem[] = [];
   filterForm!: FormGroup;
 
 
-
-
+  searchValue = '';
 
   constructor(private fruitService: FruitService) {
     super(fruitService);
   }
 
   override ngOnInit(): void {
-    this.filterForm = new FormGroup({
 
-    })
+    // 初始化字段定义
+    this.columnItems = []
+    this.columnItems.push(basicColumnItemId);
+    this.columnItems.push(new ColumnItem('名称', 'name'),);
+    this.columnItems.push(new ColumnItem('重量', 'weight'),);
+    this.columnItems.push(new ColumnItem('价格', 'price'),);
+    var isSweetColumnItem = new ColumnItem('甜吗', 'isSweet');
+    isSweetColumnItem.showFilter = true;
+    isSweetColumnItem.filters = [{text: 'sweet', value: true}, {text: 'sour', value: false}]
+
+    this.columnItems.push(isSweetColumnItem);
+    this.columnItems.push(new ColumnItem('备注', 'remark'));
+    this.columnItems.push(
+      basicColumnItemCreateBy,
+      basicColumnItemCreateTime,
+      basicColumnItemUpdateBy,
+      basicColumnItemUpdateTime);
+
+    this.filterForm = new FormGroup({})
   }
 
   /**
@@ -46,6 +77,19 @@ export class FruitComponent extends BaseComponent<FruitDTO, FruitVO> implements 
    */
   reloadData() {
     console.log('重新加载数据，刷新缓存');
-    this.loadDataFromServer(this.pageable, this.baseDTO);
+    this.loadDataFromServer(this.pageable);
   }
+
+
+  // override assembleQueryDTO(filter: Array<{ key: string; value: NzTableFilterValue }>) {
+  //   super.assembleQueryDTO(filter);
+  //
+  //   for (let filterElement of filter) {
+  //     // if (filterElement.key === 'isSweet') {
+  //     //   this.baseDTO.isSweet
+  //     // }
+  //
+  //     (this.baseDTO as any)[filterElement.key] = filterElement.value
+  //   }
+  // }
 }

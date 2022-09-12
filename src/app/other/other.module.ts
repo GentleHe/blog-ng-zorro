@@ -7,6 +7,8 @@ import {NzInputModule} from "ng-zorro-antd/input";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import { TestComponent } from './components';
+import {NzDropDownModule} from "ng-zorro-antd/dropdown";
+import {FormsModule} from "@angular/forms";
 
 
 
@@ -22,6 +24,8 @@ import { TestComponent } from './components';
     NzInputModule,
     NzDatePickerModule,
     NzDividerModule,
+    NzDropDownModule,
+    FormsModule,
   ]
 })
 export class OtherModule { }

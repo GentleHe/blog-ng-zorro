@@ -83,7 +83,7 @@ export class BaseService<DTO extends BaseDTO, VO extends BaseVO> implements Base
 
   }
 
-  getData(pageable: Pageable, baseDTO: BaseDTO): Observable<Result> {
+  getData(pageable: Pageable, baseDTO: DTO): Observable<Result> {
 
     // todo 记得补充
 
@@ -93,18 +93,31 @@ export class BaseService<DTO extends BaseDTO, VO extends BaseVO> implements Base
 
     for (let sortElement of pageable.sort) {
       if (sortElement.value) {
-        params = params.append('sort', `${sortElement.key},${sortElement.value==='ascend'?'asc':'desc'}`)
+        params = params.append('sort', `${sortElement.key},${sortElement.value === 'ascend' ? 'asc' : 'desc'}`)
       }
     }
 
-    // var resultObservable = this.http.get<Result>(`${this.baseUrl}${this.serviceName}`, {
-    //   params: param
-    // });
-    console.log('pageable: ' + JSON.stringify(pageable))
+
+    for (let filterElement of pageable.filter) {
+      if (filterElement.value !== null) {
+        if (filterElement.value instanceof Array && filterElement.value.length > 0) {
+          console.log(`filterElement.value: ${filterElement.value}`);
+          params = params.append(filterElement.key, filterElement.value[0]);
+        } else {
+          console.log(`filterElement.value1: ${filterElement.value}`);
+          params = params.append(filterElement.key, filterElement.value);
+        }
+
+      }
+    }
+
+
+    console.log(pageable)
     console.log('params: ' + JSON.stringify(params.keys()))
 
+
     var resultObservable = this.http.request<Result>('get', `${this.baseUrl}${this.serviceName}`, {
-      params, body: baseDTO
+      params
     });
 
 

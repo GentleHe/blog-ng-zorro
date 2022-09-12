@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {BaseDTO, BaseVO, Pageable} from "../../domain";
 import {BaseService} from "../../services";
-import {NzTableQueryParams} from "ng-zorro-antd/table";
+import {NzTableFilterValue, NzTableQueryParams, NzTableSortFn, NzTableSortOrder} from "ng-zorro-antd/table";
 
 
 export interface BaseComponentInterface<DTO extends BaseDTO, VO extends BaseVO> {
@@ -20,6 +20,7 @@ export interface BaseComponentInterface<DTO extends BaseDTO, VO extends BaseVO> 
    */
   onQueryParamsChange(params: NzTableQueryParams): void
 }
+
 
 @Component({
   selector: 'app-base',
@@ -75,7 +76,7 @@ export class BaseComponent<DTO extends BaseDTO, VO extends BaseVO> implements On
   ngOnInit(): void {
 
     // 一上来就要加载数据的
-    this.loadDataFromServer(this.pageable, this.baseDTO)
+    this.loadDataFromServer(this.pageable)
 
 
   }
@@ -85,11 +86,11 @@ export class BaseComponent<DTO extends BaseDTO, VO extends BaseVO> implements On
    * @param pageable 分页对象
    * @param baseDTO 传输层对象
    */
-  loadDataFromServer(pageable: Pageable, baseDTO: DTO): void {
+  loadDataFromServer(pageable: Pageable): void {
     this.loading = true
     console.log('从服务器加载数据列表')
 
-    var data = this.baseService.getData(pageable, baseDTO);
+    var data = this.baseService.getData(pageable, this.baseDTO);
     data.subscribe(x => {
       console.log("获取到的数据列表: " + JSON.stringify(x.data.total))
 
@@ -123,12 +124,12 @@ export class BaseComponent<DTO extends BaseDTO, VO extends BaseVO> implements On
 
     const {pageSize, pageIndex, sort, filter} = params;
 
-    console.log(`当前的查询参数：\n ${JSON.stringify(params)}`)
-
     //页码需要“减1”，ng-zorro是以 1 为起始页的索引的
     this.pageable = new Pageable(pageIndex - 1, pageSize, sort as Array<{ key: string; value: 'ascend' | 'descend' | null }>, filter);
 
-    this.loadDataFromServer(this.pageable, this.baseDTO)
+
+
+    this.loadDataFromServer(this.pageable)
   }
 
 
@@ -199,5 +200,13 @@ export class BaseComponent<DTO extends BaseDTO, VO extends BaseVO> implements On
 
   handleCancel() {
     this.modalVisible = false
+  }
+
+  /**
+   * 拼装 baseDTO 用于字段查询
+   * @private
+   */
+  assembleQueryDTO(filter: Array<{ key: string; value: NzTableFilterValue }>) {
+
   }
 }
